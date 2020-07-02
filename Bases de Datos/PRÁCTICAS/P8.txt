@@ -1,0 +1,152 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 8 BASES DE DATOS
+
+11:
+
+//modo anterior
+-SELECT * FROM articulos, ventas 
+WHERE ART_NUM = VNT_ART AND VNT_FCH BETWEEN '2020-01-01' AND '2020-02-29';
+
+//usando union
+-select * from articulos,ventas 
+where art_num = vnt_art and vnt_art and vnt_fch between '2020-01-01' and '2020-01-31'
+union
+select * from articulos,ventas 
+where art_num = vnt_art and vnt_art and vnt_fch between '2020-02-01' and '2020-02-29';
+
+//usando join,on y u union
+-select * from articulos join ventas 
+on art_num = vnt_art and vnt_art and vnt_fch between '2020-01-01' and '2020-01-31'
+union
+select * from articulos join ventas 
+on art_num = vnt_art and vnt_art and vnt_fch between '2020-02-01' and '2020-02-29';
+
+12:
+
+-SELECT * FROM tiendas  
+WHERE TDA_NUM IN(
+	SELECT VNT_TDA
+	FROM ventas     
+	WHERE VNT_FCH BETWEEN '2020-02-01' AND '2020-02-29')
+AND TDA_NUM NOT IN(
+	SELECT VNT_TDA     
+	FROM ventas     
+	WHERE VNT_FCH BETWEEN '2020-01-01' AND '2020-01-31') 
+ORDER BY TDA_NUM;
+
+13:
+
+//usando join
+-SELECT proveedores.* 
+FROM proveedores JOIN articulos ON PRV_NUM = ART_PRV WHERE 
+art_num IN (SELECT VNT_ART FROM ventas WHERE VNT_FCH BETWEEN '2020-01-01' AND '2020-01-31') 
+OR 
+ART_NUM IN (SELECT VNT_ART FROM ventas WHERE VNT_FCH BETWEEN '2020-02-01' AND '2020-02-29');
+
+//usando union
+-select prv_num from proveedores,ventas,articulos where prv_num = art_prv and art_num = vnt_art
+and vnt_fch between '2020-01-01' and '2020-01-31'
+union
+select prv_num from proveedores,ventas,articulos where prv_num = art_prv and art_num = vnt_art
+and vnt_fch between '2020-02-01' and '2020-02-29';
+
+14:
+
+//usamos ifnull para que aparezca un 0 en lugar de un null
+-select clt_num 'Cliente', ifnull(sum(vnt_cant),0) 'Unidades compradas' 
+from clientes left outer join ventas on clt_num = vnt_clt group by clt_num;
+
+15:
+
+-select art_num, art_nom, vnt_fch, clt_num, clt_nom, clt_apell 
+from articulos left outer join ventas on art_num = vnt_art left outer join clientes on vnt_clt = clt_num  
+group by art_num;
+
+16: (revisar, no funciona)
+
+-select tda_pob 'Población', tda_ger 'Gerente', count(vnt_tda) 'nº ventas', avg(vnt_cant) 'media unidades vendidas'   
+from tiendas join ventas on vnt_tda = tda_num where tda_pob not like 'Madrid%'  
+group by tda_pob having count(vnt_tda) > any    
+	(select count(vnt_tda)      
+    from ventas,tiendas where vnt_tda = tda_num and tda_pob like 'Madrid%'      
+    group by vnt_tda)
+;
+
+-select tda_pob, tda_ger, count(*), avg(vnt_cant) 
+from tiendas join ventas on tda_num = vnt_tda where tda_pob not like 'Madrid%' 
+group by vnt_art having count(*) > any
+	(select count(*) 
+    from ventas join tiendas on vnt_tda = tda_num where tda_pob like 'Madrid%' 
+    group by tda_num)
+;
+
+17:
+
+
+
+18: (no funciona)
+
+SELECT tiendas.*, COUNT(*) 'Ventas' 
+FROM tiendas JOIN ventas ON TDA_NUM = VNT_TDA WHERE VNT_CLT 
+IN(SELECT CLT_NUM  FROM clientes  WHERE CLT_POB NOT IN ('Madrid', 'Barcelona')) 
+GROUP BY TDA_NUM;
+
+19:
+
+
+
+20:
+
+
+//Trabajando la eficiencia de consultas
+//Hay muchas maneras distintas para obtener la misma consulta
+//¿Cuál será la más eficiente?
+21: Listado de clientes que han comprado el artículo 3:
+
+
+
+//consultas union
+-select distinct clt_num, art_num, vnt_clt  
+from clientes join ventas on vnt_clt = clt_num join articulos on vnt_art = art_num where art_num = 3 
+order by clt_num;
+
+-select distinct clt_num, vnt_clt from clientes,ventas 
+where vnt_clt = clt_num and vnt_art = 3
+order by clt_num;
+
+-select distinct clt_num, vnt_clt from clientes,ventas where clt_num = vnt_clt and vnt_clt in  
+	(select vnt_clt from ventas,articulos where vnt_art = art_num and art_num = 3)
+order by clt_num;
+
+
+
+//consultas anidadas
+-select clt_num from clientes where clt_num in  
+	(select vnt_clt from ventas where vnt_art = 3 in   
+		(select art_num from articulos where art_num = 3)) 
+order by clt_num;
+
+-select clt_num from clientes where clt_num in  
+	(select vnt_clt from ventas where vnt_art = 3) 
+order by clt_num;
+
+
+
+//consultas correlacionadas
+-select clt_num from clientes where 3 in
+	(select vnt_art from ventas where vnt_clt = clt_num)
+order by clt_num;
+
+
+
+//consultas existencia
+-select clt_num from clientes where exists
+	(select vnt_art from ventas where vnt_clt = clt_num and vnt_art = 3)
+order by clt_num;
+
+
+CONCLUSIÓN: 
+-Si la información a mostrar es de varias tablas: unión de tablas
+-Si la información a mostrar es una única tabla: consulta anidada
+-Toda subconsulta en la que se usa IN, se puede expresar con EXISTS (pero no al revés)
+-EXISTST es necesario para especificar el cuantificador universal

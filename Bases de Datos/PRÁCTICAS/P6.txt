@@ -1,0 +1,67 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 6 BASES DE DATOS
+
+11:
+
+-select * from articulos where art_peso > any
+	(select art_peso from articulos where art_col = 'morado');
+
+12: (no se ejecuta, pq existen dos tiendas que tienen el mismo número de ventas)
+
+-select * from tiendas where tda_num in 
+	(select vnt_tda from ventas group by vnt_tda having count(*)>=ALL
+		(select count(*) from ventas group by vnt_tda));
+
+13:
+
+-select * from clientes where (clt_pob,clt_pais) in  
+	(select clt_pob,clt_pais from clientes where clt_num=24);
+
+14:
+
+-select vnt_art 'nº articulo', max(vnt_fch) 'ultima fecha venta' from ventas group by vnt_art order by vnt_art;
+
+15:
+
+-select * from tiendas where tda_num in
+	(select vnt_tda from ventas); 
+-select * from tiendas where tda_num in
+	(select vnt_tda from ventas where vnt_art in
+		(select art_num from articulos)); 
+-select * from tiendas where exists
+	(select * from ventas where tda_num = vnt_tda);
+
+
+16: (revisar)
+
+-select * from articulos where art_num not in
+	(select vnt_art from ventas where vnt_clt in
+		(select clt_num from clientes where clt_pob = 'Madrid'));
+
+17:
+
+-select * from clientes where (clt_pob = 'Madrid' or clt_pob = 'Barcelona') and clt_num in
+	(select vnt_clt from ventas group by vnt_clt having count(vnt_clt) > 2);
+
+18:
+
+-select * from proveedores where prv_num in
+	(select art_prv from articulos);
+-select * from proveedores where exists
+	(select * from articulos where prv_num = art_prv);
+
+19: (revisar)
+
+-select * from tiendas where tda_num in
+	(select vnt_tda from ventas where vnt_art in
+		(select art_num from articulos where art_nom not like 'boligrafo%'));
+-select * from tiendas where tda_num not in  
+	(select vnt_tda from ventas where vnt_art in   
+		(select art_num from articulos where art_nom like 'boligrafo%'));
+
+20: (revisar)
+
+-select * from clientes where clt_pais = 'e' and clt_num in
+	(select vnt_clt from ventas group by vnt_clt having count(*) > 
+		(select count(*) from ventas where vnt_clt = 17 group by vnt_clt));
+

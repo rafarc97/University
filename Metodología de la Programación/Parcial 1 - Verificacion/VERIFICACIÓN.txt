@@ -1,0 +1,187 @@
+ --------------------------------------------------------------------------------------------
+|                                    VERIFICACIÓN DE ALGORITMOS                              |
+ --------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------
+CONCEPTOS BÁSICOS:
+----------------------------------------------------------------------------------------------
+-Resultados que proporciona un algoritmo son acordes a su especificación -> algoritmo correcto.
+
+***La Especificación la conforman {P} y {Q}:
+
+{P}(precondición): condiciones que cumplen lo datos de entrada
+{Q}(Postcondición): condiciones que cumplen los datos de salida/resultado
+S: algoritmo a verificar 
+
+***Verificar un algoritmo = demostrar formalmente que el algoritmo cumple con su especificación
+
+Proceso de demostración lo conforman:
+
+-Correción parcial (programa termina -> resultado correcto):
+Se realiza cuando se demuestra que, al llegar al final del algoritmo -> se cumple la postcondición
+
+-Correción total (Para todo dato de entrada -> programa termina y resultado correcto):
+Se realiza si, a esa demostración de correción parcial, se le añade la demostración de
+que todos los bucles del algoritmo terminan tras un nº finito de repeticiones.
+
+
+------------------------------------------------------------------------------------------------
+REGLAS DE CONSECUENCIA:
+------------------------------------------------------------------------------------------------
+Son la base fundamental de las demostraciones
+
+-1ªRC: refuerza la precondición
+{P}S{Q},R => P
+--------------
+ {R}S{Q}
+
+-2ªRC: debilita la postcondición
+{P}S{Q},Q => R
+--------------
+ {P}S{R}
+
+
+-------------------------------------------------------------------------------------------------
+ASIGNACIÓN:
+-------------------------------------------------------------------------------------------------
+Sirven para demostrar una instrucción de asignación
+Con el axioma de asignación, obtenemos una precondición factible a partir de la postcondición deseada
+
+
+
+-------------------------------------------------------------------------------------------------
+REGLA DE COMPOSICIÓN:
+-------------------------------------------------------------------------------------------------
+-Con la regla de inferencia de la composición secuencial demostramos + de una instrucción cuando aparecen
+de forma consecutiva.
+-Decimos que la especificación:
+
+{P}
+S1
+S2
+{Q}
+
+es correcta si existe un aserto R tal que se cumpla:
+
+{P}S1{R}
+{R}S2{Q}
+
+
+----------------------------------------------------------------------------------------------------
+1ª SESIÓN (1h)
+----------------------------------------------------------------------------------------------------
+{P}
+S
+{Q}
+
+
+
+1.- Teniendo :
+(Correcta)
+{x>=0 ^ x <=20} P
+S
+{x>=0 ^ y<=10} Q
+
+Demostrar:
+(?)
+{ x>=0 ^ x<=20} P
+S
+{x>=20 ^ y<=x} R
+
+Q=>R
+
+{x>=0 ^ y<=10} => {x>=20 ^ y<=x}
+
+------------y-------0-------10 -x----------------------
+
+Demostrar:
+{x=A ^ x=A} R
+y<-x
+{x=A ^ y=A} Q
+
+
+Demostracion:
+
+{x=A ^ x=A} P
+y<-x
+{x=A ^ y=A} Q
+
+R=>P
+
+-------------------------------------------
+
+Demostrar:
+{x=A ^ y=B} R
+x<-x+y
+{x=A+B ^y=B} Q
+
+
+
+Demostracion: (Correcto)
+{ x+y=A+B ^ y=B } P
+x<-x+y
+{x=A+B ^ y=B} Q
+
+Aplicamos la primera regla de consecuencia:
+R=>P
+
+{x=A ^ y=B} => {x+y=A+B ^ y=B} //Correcto
+
+--------------------------------------------
+
+Composicion secuencial:
+
+Demostrar:(?)
+{y>=0 ^ prod=AB-xy ^ y>0} R
+prod<-prod+x
+y<-y-1
+{y>=0 ^ prod=AB-xy } Q
+
+Correcta:
+{ y-1>=0 ^ prod+x=AB-x(y-1) }  P
+prod<-prod+x
+{ y-1>=0 ^ prod=AB - x(y-1) } ----->No sirve ya
+y<-y-1
+{ y>=0 ^ prod=AB-xy } Q
+
+R=>P
+
+{y>=0 ^ prod=AB-xy ^ y>0} => { y-1 >=0 ^ prod+x=AB - x(y-1)}
+
+{ y>0 ^ prod=AB-xy } => { y>=1 ^ prod+x=AB - xy + x} //Correcto
+-----------------------------------------------------------
+
+Como generar una postcondicion a partir de una precondicion y asignaciones
+
+Caso 1. (asignacion constante)
+
+(?)
+{x=A ^ y=B ^ y>=0} R
+prod<-0
+{x=A ^ y=B ^ y>=0 ^ prod=0} Q
+
+Correcta
+
+{x=A ^ y=B ^ y>=0 ^ 0=0} P
+prod<-0
+{x=A ^ y=B ^ y>=0 ^ prod=0} Q
+
+Caso 2 (autoincremento o autodecremento)
+
+(?)
+{x=30}  R {x+1=30+1}
+x<-x+1
+{x=31} Q
+
+Correcta
+
+{x=30+1} P
+x<-x+1
+{x=31} Q
+
+------------------------------------------------------------------------------------------------------------
+2ªSESIÓN
+------------------------------------------------------------------------------------------------------------
+

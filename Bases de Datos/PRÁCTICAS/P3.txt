@@ -1,0 +1,70 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 6 BASES DE DATOS
+
+FUNCIONES DE REGISTROS:devuelve un único registro como resultado por
+cada registro de la tabla consultada.
+CONCAT,CURDATE,DAYNAME,DATEDIFF,LOWER,PI,ROUND,SQRT,UPPER
+
+FUNCIONES DE GRUPOS: devuelven un valor asociado a un conjunto
+de registros ya agrupados.
+COUNT,MIN,MAX,SUM,AVG
+
+1:
+
+-SELECT *, PESO_MAX - PESO_MIN 'Diferencia de pesos' FROM pesos;
+
+2: (devuelve día incorrecto)
+
+//ENTRE COMILLAS!! IMPORTANTE. FORMATO STRING.
+-SELECT DAYOFWEEK('1997-02-23');
+
+3:
+
+-SELECT UPPER(pai_nombre) FROM paises WHERE pai_nombre LIKE 'A%';
+
+4:
+
+-SELECT PRV_NOM FROM proveedores WHERE UPPER(PRV_NOM) LIKE ('E%');
+
+*DATEDIFF():
+
+-SELECT DATEDIFF(year, '2017/08/25', '2011/08/25')
+-Lanza: -6
+-SELECT DATEDIFF(CURDATE(),fecha);
+-Lanza diferencia de días(en días)
+
+*CURDATE():
+
+-SELECT CURDATE();
+-Lanza: Fecha actual
+
+5:
+
+-SELECT * FROM empleados WHERE DATEDIFF(CURDATE(),emp_nacimiento) >= 365.25 * 41;
+-SELECT * FROM empleados WHERE DATEDIFF(NOW(),emp_nacimiento) >= 365.25 * 41;
+
+6:
+
+-SELECT CONCAT(CLT_NOM, ' ', CLT_APELL), LEFT(UPPER(CLT_PAIS),1) FROM clientes;
+
+*TRUNCATE:
+
+-SELECT TRUNCATE(5/3,4);
+-Lanza: 1,6666
+
+7:
+
+-SELECT ART_NOM, TRUNCATE(ART_PV - ART_PC,2) 'Beneficio' FROM articulos WHERE ART_PV > 2 * ART_PC ORDER BY 2 DESC LIMIT 0, 1000
+
+8:
+
+-SELECT * FROM ventas WHERE DAY(VNT_FCH) = 02;
+-SELECT * FROM ventas WHERE DAYOFMONTH(VNT_FCH) = 02;
+
+9:
+
+-SELECT * FROM empleados WHERE char_length(emp_nombre) > 5;
+
+10:
+
+-SELECT TDA_NUM, TDA_POB, SUBSTRING_INDEX2(TDA_GER,',',-1) FROM tiendas;

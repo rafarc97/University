@@ -1,0 +1,59 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 6 BASES DE DATOS
+
+11:
+
+-SELECT COUNT(*) 'Nº de Registros' FROM proveedores;
+
+12:
+
+-SELECT MAX(PESO_MIN), MIN(PESO_MAX) FROM pesos;
+
+13:
+
+-select count(tda_num) 'Nº tiendas totales', count(distinct tda_pob)'Nº poblaciones diferentes', 
+count(distinct tda_ger) 'Nº gerentes diferentes' from tiendas;
+
+14:
+
+-SELECT AVG(ART_PESO) 'Media de peso' FROM articulos;
+
+15:
+
+-select vnt_fch, count(*) 'Nº ventas totales' from ventas group by vnt_fch;
+*Sin el GRUOP BY la consulta arroja una sola línea de resultado.
+Esto ocurre cuando usamos las funciones de grupo SUM, AVG, COUNT, ...
+*Cuando usemos alguna de estas funciones => definimos GRUOP BY junto a
+VNT_FCH (en este caso, siempre con el que este solo)
+
+16:
+
+-select clt_pob, count(*) from clientes group by clt_pob having count(*) != 1;
+
+17:
+
+-SELECT ART_NOM, MAX(ART_PESO), AVG(ART_PC), AVG(ART_PV) FROM articulos 
+WHERE ART_PESO is not null GROUP BY ART_NOM HAVING AVG(ART_PV) >= 20 
+ORDER BY 2 DESC;
+
+*Los operadores del tipo =, !=, <, >, ... usados con NULL siempre
+producen NULL
+*Para comparar valores con NULL usamos is NULL/ is not NULL
+
+*HAVING siempre acompañado de GROUP BY y con un operador de agrupamiento 
+(avg,sum,count, ...)
+*WHERE: filtro por cada registro
+*HAVING: filtro por grupo de registros 
+
+18:
+
+-SELECT VNT_TDA, COUNT(VNT_TDA), SUM(VNT_CANT)  FROM ventas WHERE VNT_TDA BETWEEN 10 AND 20 GROUP BY VNT_TDA;
+
+19:
+
+-SELECT CLT_POB 'Población', CLT_PAIS 'País', COUNT(*) 'Nº clientes totales' FROM clientes GROUP BY CLT_POB, CLT_PAIS;
+
+20:
+
+-SELECT ART_PRV, ART_COL, COUNT(*) 'cantidad', ROUND(AVG(ART_PC),2) 'media' FROM articulos 
+WHERE ART_COL NOT IN ('morado','negro') GROUP BY ART_COL ORDER BY 3 DESC;

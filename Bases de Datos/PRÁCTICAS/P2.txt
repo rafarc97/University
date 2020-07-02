@@ -1,0 +1,45 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 6 BASES DE DATOS
+
+21:
+
+-SELECT DISTINCT TDA_POB FROM tiendas ORDER BY TDA_POB;
+
+22:
+
+-SELECT DISTINCT CLT_PAIS, CLT_NOM FROM clientes; 
+
+23:
+
+-SELECT ART_NOM 'Nombre', ART_COL 'Color', ART_PV 'Venta' FROM articulos WHERE ART_PRV = 2 ORDER BY ART_PV DESC, ART_NOM;
+-SELECT ART_NOM AS 'Nombre', ART_COL AS 'Color', ART_PV AS 'Venta' FROM articulos WHERE ART_PRV = 2 ORDER BY ART_PV DESC, ART_NOM;
+
+24:
+
+-SELECT VNT_TDA 'Tienda', VNT_ART 'Articulo', VNT_CANT 'Cantidad', VNT_FCH 'Fecha de Compra' FROM ventas WHERE VNT_CLT = 1 AND VNT_ART >= 12 AND VNT_ART <= 20;
+-SELECT VNT_TDA 'Tienda', VNT_ART 'Articulo', VNT_CANT 'Cantidad', VNT_FCH 'Fecha de Compra' FROM ventas WHERE VNT_CLT = 1 AND VNT_ART BETWEEN 12 AND 20;
+
+25:
+
+-SELECT TDA_GER 'Gerente', TDA_POB 'Población' FROM tiendas WHERE TDA_POB NOT IN ('París','Lyon') AND TDA_POB NOT LIKE ('Madrid%') ORDER BY TDA_GER, TDA_POB;
+
+26:
+
+-SELECT * FROM articulos WHERE (ART_NOM LIKE 'b%' OR ART_NOM LIKE 'i%') and ART_PESO is not null AND ART_COL is not null ORDER BY ART_PC DESC;
+
+27:
+
+-SELECT VNT_FCH 'Fecha' FROM ventas WHERE VNT_ART = 9 ORDER BY VNT_FCH;
+
+28:
+
+-SELECT PRV_NUM 'Código numérico', PRV_NOM 'Nombre del proveedor' FROM proveedores WHERE PRV_NOM LIKE '%ca%' AND PRV_NOM NOT LIKE '%nic';
+
+29:
+
+//TDA_GER: Apellido, Nombre
+-SELECT * FROM tiendas WHERE TDA_GER LIKE '%Juan Carlos';
+
+30:
+
+-SELECT * FROM clientes WHERE (CLT_NOM LIKE 'J%' AND CLT_APELL NOT LIKE '%z') AND (CLT_POB IN ('Madrid','Barcelona','Valencia','Pamplona') OR CLT_NUM BETWEEN 1 AND 10);

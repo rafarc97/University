@@ -1,0 +1,89 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 9 BASES DE DATOS
+
+1:
+
+-insert into Clientes (cli_id,cli_dni,cli_apellidos,cli_nombre,cli_direccion)
+values(null,'12345678A','López García','Virginia','C/Sol, 13. 11001 Cádiz(Cádiz)');
+
+2:
+
+-insert into Clientes (cli_id,cli_dni,cli_apellidos,cli_nombre,cli_direccion)  
+values(null,'12345679B','Saura Pérez','Juan','Urb. Membrillar, 3, Bajo B. 11407 Jerez (Cádiz)');
+
+3:
+
+insert into Ciudades values (null,'El Pto. Sta María',2);
+insert into CodigosPostales values (11502,6);
+insert into Clientes (cli_id,cli_dni,cli_apellidos,cli_nombre,cli_direccion,cli_cp)  
+values(null,'12345680C','Ramírez Servando','Ana','C/ Larga,1.', 11502);
+
+4:
+
+-insert into Clientes (cli_id,cli_dni,cli_apellidos,cli_nombre,cli_direccion)  
+values(null,'12345681D','Santos Pera','Vicente','Plaza Marco Antonio, 17 Dcha. 37001 Salamanca (Salamanca)');
+
+5:
+
+-insert into Clientes (cli_id,cli_dni,cli_apellidos,cli_nombre,cli_direccion) 
+values(null,'12345682E','Larios Jardín','Miguel','Calle Roble, 4, 1ºA. 22270 Almudévar (Huesca)');
+
+6:
+
+-insert into Cuentas 
+values (null,'21000003134567811115',1);
+
+7:
+
+-insert into Cuentas 
+values (null,'21000024003102575766',2);
+
+8:
+
+-insert into Cuentas  values 
+(null,'21000024003102570000',(select cli_id from Clientes where cli_dni='12345680C'));
+
+
+9:
+
+-insert into Cuentas 
+values (null,'21000024003102571111',4);
+
+10:
+
+-insert into Cuentas 
+values (null,'21000024003102572222',5);
+
+11:
+
+-insert into Hipotecas 
+values (null,5,150000,360,2,360,'2018-04-30');
+
+12:
+
+-insert into Hipotecas 
+values (null,(select cue_id from Cuentas where cue_cliente = (select cli_id from 
+Clientes where cli_dni = '12345680C')),150000,360,2,360,'2018-04-30');
+
+13:
+
+-update Clientes
+set cli_nombre = 'Laura'
+where cli_id = 3;
+
+14:
+
+-no podemos, puesto que dicho código postal no existe, por lo que para modificarlo,
+tendríamos que crear una Provincia, una Ciudad, y posteriormente su código postal.
+
+15:
+
+//No tiene hipotecas
+
+//Borramos cuenta
+-delete from Cuentas
+where cue_id = 9;
+
+//Borramos cliente
+-delete from Clientes
+where cli_id = 5;

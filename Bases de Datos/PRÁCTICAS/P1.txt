@@ -1,0 +1,106 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 1
+
+1: 
+
+-DESCRIBE clientes;
+
+2:
+
+-SELECT CLT_NOM, CLT_APELL FROM clientes;
+
+3:
+
+-SELECT ART_NUM, ART_NOM, ART_COL FROM articulos;
+
+4:
+
+-SELECT PRV_NOM FROM proveedores;
+
+5:
+
+-SELECT * FROM pesos;
+
+6:
+
+-SELECT TDA_GER FROM tiendas;
+
+7:
+
+-SELECT * FROM ventas WHERE VNT_CLT = 7;
+
+8:
+
+-SELECT CLT_NOM, CLT_APELL FROM clientes WHERE CLT_NUM = 7;
+
+9:
+
+-SELECT * FROM articulos WHERE ART_COL IN ('rojo');
+-SELECT * FROM articulos WHERE ART_COL = 'rojo';
+
+10:
+
+-SELECT * FROM proveedores WHERE PRV_NUM > 5;
+
+11:
+
+-SELECT * FROM pesos WHERE PESO_NOM IN ('leve','ligero');
+-SELECT * FROM pesos WHERE PESO_NOM ='leve' OR PESO_NOM = 'ligero';
+
+12:
+
+-SELECT * FROM ventas WHERE VNT_FCH LIKE ('2020-02-%');
+-SELECT * FROM ventas WHERE VNT_FCH LIKE '2020-02-%';
+
+
+13:
+
+-SELECT * FROM clientes WHERE CLT_PAIS IN ('e') ORDER BY CLT_POB;
+-SELECT * FROM clientes WHERE CLT_PAIS = ('e') ORDER BY CLT_POB;
+
+14:
+
+-SELECT * FROM articulos WHERE ART_PRV = 5 ORDER BY ART_PC DESC;
+
+15:
+
+-SELECT * FROM tiendas WHERE TDA_POB NOT IN ('Palencia','Pamplona','Jerez');
+-SELECT * FROM tiendas WHERE NOT (TDA_POB ='Palencia' OR TDA_POB = 'Pamplona' OR TDA_POB = 'Jerez');
+-select * from tiendas where tda_pob in 
+	(select tda_pob from tiendas where tda_pob not in ('Palencia','Jerez','Pamplona'));
+
+16:
+
+-SELECT * FROM ventas WHERE VNT_TDA = 11 ORDER BY VNT_FCH, VNT_CANT DESC;
+
+17:
+
+-SELECT * FROM clientes WHERE CLT_POB LIKE ('M%') OR CLT_PAIS = ('f');
+
+18:
+
+-SELECT * FROM articulos WHERE ART_NOM IN ('calendario','papel') AND ART_PV > 2 * ART_PC;
+-SELECT * FROM articulos WHERE (ART_NOM ='calendario' OR ART_NOM = 'papel') AND ART_PV > 2 * ART_PC;
+
+19:
+
+-SELECT * FROM ventas WHERE VNT_CANT is null;
+
+20:
+
+-SELECT * FROM clientes WHERE CLT_APELL LIKE 'Du____t';
+-select * from clientes where clt_apell like 'Du%' and clt_apell like '%t' and char_length(clt_apell) = 7 ;
+
+
+******
+NOTAS:
+
+
+LIKE: 
+-con o sin paréntesis
+-se utiliza para formatos de cadenas
+
+IN :
+-con paréntesis
+-se utiliza para decir que una cadena es igual que x
+-sustituible por "="

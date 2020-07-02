@@ -1,0 +1,71 @@
+#RAFAEL RODRÍGUEZ CALVENTE
+#PRÁCTICA 7 BASES DE DATOS
+
+#Las consultas anidadas nos servían para filtrar información y finalmente
+mostrar información de una sola tabla, pero no de tablas distintas. 
+#Con las consultas a múltiples tablas si podremos mostrar información
+de otras tablas
+#No olvidar enlazar las tablas con la clave foránea, pq si no obtendremos
+el producto cartesiano, resultado que no es correcto.
+#Necesitamos n-1 condiciones de unión para n tablas
+#Las condiciones de unión siempre con WHERE nunca con HAVING, puesto
+que estamos operando a nivel de registros, no de grupos de registros.
+
+1:
+
+-select art_nom 'Nombre', art_col 'Color' , art_pc 'Precio compra', prv_nom 'Nombre proveedor' 
+from articulos,proveedores where art_prv = prv_num and art_pc > 10 order by art_nom;
+
+2:
+
+-select tiendas.* , vnt_fch 'Fecha venta' from tiendas, ventas 
+where tda_num = vnt_tda and vnt_fch like '2020-02-%' order by vnt_fch desc, tda_ger;
+
+3:
+
+//consulta anidada
+-select * from clientes where clt_pob in	
+	(select clt_pob from clientes where clt_num = 5)
+and clt_num != 5;
+
+//consulta múltiples tablas
+-select c1.* from clientes c1, clientes c2 
+where c1.clt_pob = c2.clt_pob and c2.clt_num = 5 and c1.clt_num != 5;
+
+4:
+
+-select art_num 'Código', art_nom 'Nombre', art_col 'Color', peso_nom 'Categoría peso' 
+from articulos,pesos where (art_peso between peso_min and peso_max) and art_col in ('azul','rosa','verde');
+
+5:
+
+-select clt_nom 'Nombre cliente', clt_apell 'Apellido cliente', clt_pob 'población cliente', tda_pob 'Población tienda', vnt_fch 'Fecha venta' 
+from clientes,tiendas,ventas 
+where clt_num = vnt_clt and vnt_tda = tda_num and tda_pob != 'Barcelona' and clt_pob = 'Barcelona';
+
+6:
+
+-select clt_num 'Nº cliente', clt_apell 'Apellido cliente', clt_nom 'Nombre cliente', count(vnt_clt) 'Nº compras'
+from clientes,ventas where clt_num = vnt_clt group by clt_num having count(vnt_clt) > 2 order by 4 desc;
+
+7:
+
+-select tda_pob 'Población tienda', count(distinct vnt_clt) 'Cantidad clientes distintos' from tiendas,ventas
+where vnt_tda = tda_num group by tda_pob order by 2 desc;
+
+8:
+
+-select art_col 'Colo articulo', count(*) 'nº articulos vendidos', count(distinct vnt_art) 'nº artículos distintos vendidos'
+from ventas,articulos where art_num = vnt_art group by art_col order by 2 desc, 3 desc;
+
+9:
+
+-select prv_nom 'Nombre proveedor', count(vnt_art) from proveedores,ventas,articulos 
+where prv_num = art_prv and art_num = vnt_art group by prv_num;
+
+10:
+
+-select concat(clt_nom,' ', clt_apell) 'Cliente', tda_pob 'Tienda', art_nom 'Artículo', vnt_cant 'Cantidad', vnt_fch 'Fecha'
+from clientes,ventas,tiendas,articulos 
+where clt_num = vnt_clt and vnt_tda = tda_num and vnt_art = art_num 
+group by clt_nom order by vnt_fch;
