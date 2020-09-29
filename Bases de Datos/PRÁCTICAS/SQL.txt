@@ -1,0 +1,244 @@
+//////////////////////CONCETOS PRINCIPALES:////////////////////////
+
+---DBMS (Data Base Management System) P.ej MySql: Programa o sistema administrador que sirve como interfaz de usuario con el que a través del lenguaje SQL manipularemos una base de datos.
+---SQL (el el lenguaje en sí para manipular la Base de Datos)
+---Base de Datos: conjunto de datos estructurados y organizados de tal modo que puedan ser administrados para su posterior uso. Está compuesa por tablas que almacenan información. Cada tabla tendrá un nombre y almecenarán información relacionada a lo que su nombre indica. La información se almacenará en un formato estructurado de filas y columnas. Bastante parecido al conocido excel. No deben existir 2 tablas con el mismo nombre. Cada tabla es un conjunto de registros/columnas que representa un objeto del mundo real. Las llaves primarias o clave principal es una caracteristica de un registro/columna de nuestra tabla que le proporciona la cualidad de que cada campo sea único y diferente del resto de campos. Por ejemplo si tenemos la columna (DNIe) con la caracteristica "clave primaria" de la tabla "Clientes", los campos de dicha columna/registro serán todos distintos entre sí y además no podrá haber ninguno vacío (not null). Así, si existen dos personas con el mismo nombre y apellidos, podremos diferenciarlos por su DNIe (gracias a que lleva la caracteristica "clave primaria" integrada).
+ 
+Similitud:
+-IDE -> CODEBLOCKS = DBMS -> MYSQL
+-C# = SQL
+-Aplicación = Base de Datos
+
+----------------------------------------------------------------------------
+//////////////////2 TIPOS DE COMANDOS SQL: DDL y DML////////////////////////
+----------------------------------------------------------------------------
+
+DDL (Data Definition Language):
+-CREATE: para crear DDBB y tablas
+-DROP: eliminar tablas e índices
+-ALTER: modificar las tablas (agregar o cambiar configuracion de campos)
+
+DML (Data Manipulation Language):
+-SELECT: consultar registros de una DDBB
+-INSERT: cargar bloques de datos enn una ddbb en una única consulta. Es decir, ejecutandolo una vez odemos agregar montonnes de informacion de una sola ejecucoin.
+-UPDATE: modificar los valores de los campos y registros especificos.
+-DELETE: eliminar registrs de una tabla de una ddbb.
+
+
+EJEMPLOS:
+-CREATE DATABASE empresa; //Crear una DDBB
+-CREATE TABLE clientes //Crear tabla
+(
+	ID int not null,
+	Nombre varchar(20) not null,
+	Apellidos varchar(20) not null,
+	Telefono varchar (12) not null
+);
+	 
+-SELECT * from clientes; //Ver todos las columnas de la tabla clientes
+
+------------------------------------------------
+///////////////TIPOS DE DATOS://////////////////
+------------------------------------------------
+Tipo de dato que va a recibir cada columna
+
+-binary: datos de tipo binario. Entre paréntesis cantidad exacta valores que vamos a permitir.
+-varbinary: entre parentesis cantidad maxima pero podremos ingresar menos (en binary no).
+-char: almecena caracteres. Pueden ser números sin utilización para op.  aritm. Entre paréntesis cantidad exacta valores que vamos a permitir.
+-varchar: entre parentesis cantidad maxima pero podre escribirle menos (en char no).
+-datetime: datos en formato fecha. Rango de 1/1/1753 - 31/12/9999. 
+-datetime2: rango de 1/1/0001 - el 31/12/9999.
+-smalldatetime: rango 1/1//1900 - 6/6/2079.
+-image: datos binarios orientados a imágenes. El pc puede almecenar una imagen en 1's y 0's. Soporta hasta 2GB de información.
+-int: enteros. Rango de -2.147.483.648 - 2.147.483.647.
+-tinyint: rango de 0 255 ( no puede ser negativo)
+-smallint: rango de -32.768 - 32767.
+-Bigint: rango mayor que int.
+-money: valores numericos en formato moneda. rango de -922.337.203.685.477,5808 - 922.337.203.685.477,5807.
+-numeric o decimal (son iguales): numeros formato decimal. Campo precision (total) y escala (decimales). P.ej 123,45 (precisión 5 escala 2).
+-smallmoney (similar a money): su rango es de -214.748,3648 - 214.748,3647.
+
+-----------------------------------------------------------------
+//////////////////INSERTAR Y CONSULTAR REGISTROS:////////////////
+-----------------------------------------------------------------
+
+-Registro: conjunto de campos que contienen los datos relacionados con una misma entidad u objeto.
+Registro =  Columna.  
+P.ej: insertar el registro DNIe = insertar todos los campos de la columna DNIe
+
+-Inserción:
+
+INSERT INTO table(columna1,columna2,...)
+VALUES (valor1,valor2,...);
+
+P.ej:
+INSERT INTO clientes (ID,Nombre,Apellido,Teléfono)
+VALUES(01,'Pedro','Arias','956534356');
+//El 01 no lleva comillas por ser un datatype numérico.
+
+-Consulta:
+
+SELECT * FROM table_name; //saca todas las columnas o registros de la tabla
+
+SELECT column_name FROM table_name; //saca la columna o registro que yo especifico de dicha tabla
+
+SELECT column1, column2 FROM table_name //saca las columnas 1 y 2 de dicha tabla
+
+--------------------------------------------------------------
+////////////////COMANDOS "DISTINCT" y "ORDER BY" /////////////
+--------------------------------------------------------------
+
+
+DISTINCT se utiliza en conjunto con SELECT y muestra los registros únicos, p.ej:
+
+-SELECT DISTINCT Nombre FROM Clientes; //Muestra la columna Nombre de la tabla Clientes pero si hay varias personas con el mismo nombre solo aparecerá 1 vez en la tabla gracias a DISTINCT
+
+
+-SELECT * FROM Visitantes ORDER BY nombre; //ordena todas las columnas/registros de la tabla Visitantes por criterio de nombre alfabeticamente.
+-SELECT * FROM Visitantes ORDER BY apellido; ordena todas las columnas/registros de la tabla Visitantes por criterio de apellido alfabeticamente.
+-SELECT * FROM Visitantes ORDER BY nombre, apellido; //ordena todas las columnas/registros de la tabla Vistantes por 1ºcriterio de nombre (y en el caso de que haya dos personas con el mismo nombre se utiliza el 2º criterio apellido).
+
+
+---------------------------------------------------------
+/////////OPERADORES LÓGICOS Y CLÁUSULAS//////////////////
+---------------------------------------------------------
+
+//CLÁUSULAS:
+FROM: selecciona la tabla
+WHERE: indica las condiciones de los registros seleccionados 
+GROUP BY:agrupa los registros seleccionados en función de un campo 
+HAVING: indica condiciones que cumplirán los grupos 
+ORDER BY: ordena registros en función de un campo
+
+//OPERADORES:
+-=,!=,<,>,<=,>=,AND, OR, NOT
+-BETWEEN: establece rango de valores
+-LILE: utilizado con los caracteres comodín (?,*,...)
+-IN: espeficicar una serie de registros en un campo en concreto
+A la hora de conjugar los comandos hay un orden que es así:
+comando + FROM + WHERE + GROUP BY + HAVING + ORDER BY
+
+
+SELECT column_list
+FROM table_name
+WHERE condition
+
+OPERADORES LÓGICOS que se pueden utilizar junto a WHERE:
+//Para Between se debe especificar
+
+P.ej:
+-SELECT * FROM visitantes WHERE id=4; //selecciona todas las columnas/registros de la tabla visitantes cuyo id=4 (como id es clave primaria solo sacará un campo)
+
+-SELECT * FROM visitantes where id != 3; //selecciona todas las columnas/registros de la tabla visitantes cuyo id!=3
+
+-SELECT * FROM visitantes WHERE id BETWEEN 3 AND 7; //selecciona todas las columnas/registros de la tabla visitantes cuyo id está entre 3 y 7 inclusive.
+
+-----------------------------------------------------------
+//////////////ACTUALIZAR/ELIMINAR REGISTROS////////////////
+-----------------------------------------------------------
+
+UPDATE: actualiza registros
+//junto a UPDATE debemos utilizar WHERE, pq si no lo utilizamos modificaremos los valores de todas las filas y podemos formarla.
+
+UPDATE table_name
+SET column1=value1, column2=value2
+WHERE condition;
+
+P.ej
+-UPDATE clientes
+SET Nombre='Marcos', Apellido='Vázquez'
+WHERE id=1;
+
+//Actualiza de la tabla clientes las columnas/registros Nombre y Apellido cuyo id=1. El id nos ayuda a seleccionar las filas que queremos modificar de las columnas Nombre y Apellido.
+
+DELETE: elkminar registros ya insertados en la tabla.
+
+DELETE FROM table_name
+WHERE condition;
+//junto a DELETE debemos utilizar WHERE, de lo contrario modificaremos los valores de todas las filas y la volveremos a formar igual que con el UPDATE.
+
+***UPDATE Y DELETE siempre junto a WHERE***
+
+P.ej:
+DELETE FROM clientes
+WHERE ID=2; //Borra de la tabla clientes todos los campos/datos de las columnas/registros cuyo id=2 (con esto se selecciona la/s fila/s depende de si id es clave primaria o no)
+
+
+////////////AGREGAR/RENOMBRAR/ELIMINAR COLUMNAS/////////
+
+
+-AGREGAR COLUMNA: ALTER TABLE
+
+ALTER TABLE table_name ADD new_column_name datatype(parameters);
+
+ALTER TABLE clientes ADD Direccion varchar(100);
+//Añade a la tabla clientes la nueva columna de tipo varchar con 100 caracteres como maximo
+
+
+-RENOMBRAR COLUMNA: 
+
+exec sp_rename 'table_name.column_name', 'new_column_name', 'COLUMN';
+
+P.ej:
+
+exec sp _rename 'clientes.Direccion', 'Domicilio', 'COLUMN';
+
+
+ELIMINAR COLUMNA:
+//Se utiliza ALTER junto a DROP
+
+ALTER TABLE table_name
+DROP COLUMN column_name;
+
+ALTER TABLE clientes
+DROP COLUMN Domicilio;
+//Seleccionamos la tabla clientes y borramos la columna/registro Domicilio de ella.
+
+
+-RENOMBRAR TABLA:
+
+exec sp_rename 'nombre_actual', 'nuevo_nombre';
+exec sp_rename 'clientes', 'Amigos';
+
+
+-ELIMINAR TABLA:
+
+DROP TABLE table_name;
+DROP TABLE Amigos;
+
+
+SHOW databases; //Muestra las DDBB disponibles/creadas
+USE Universidad; //Selecciona la DDBB "UNiversidad" para poder utilizarla
+SHOW tables; //Muestra las tablas de la DDBB seleccionada anteriormente
+CREATE database Universidad; //Crea la DDBB "Universidad"
+CREATE database IF NOT EXISTS Universidad;
+SHOW CREATE TABLE usuarios\G; //Ver como se creó la tabla "usuarios"
+DROP database Universidad; //Borra la DDBB "Universidad"
+DESCRIBE usuarios; //Muestra las columnas de la tabla "usuarios"
+
+//MODIFICACIÓN DE TABLAS
+ALTER TABLE usuarios 
+
+//PARA TIPOS DE DATOS EN SQL mirar en internet
+
+CREATE TABLE nombre (<definicion_columnas>); //Seleccionar DDBB antes
+CREATE TABLE IF NOT EXISTS nombre (<definicion_columnas>);
+
+Definción de columnas:
+<nombre_columna> <tipo_dato(tamaño)> //Esto sí es obligatorio especificarlo
+	[NOT NULL | NULL] //con "NOT_NULL" se llenarán los huecos autom.
+	[DEFAULT <valor_por_defecto] //Le dejamos un valor por defecto al crearse
+	[AUTO_INCREMENT] //Sirve con valores numéricos, cada registro siguiente vale 1 más
+	[UNIQUE [KEY] | [PRIMARY] KEY] //es para que ese dato no se pueda repetir en otro registro
+	[COMMENT '<cadena>'] //Añadir comentario a una columna
+
+//Entre corchetes parámetros opcionales a la hora de crear una columna
+
+//Ejemplo creación de columnas:
+
+CREATE TABLE IF NOT EXISTS usuarios
+(
+	id_usuario INT(8) AUTO_INCREMENT PRIMARY KEY COMMENT 'identificador del usuario con autoincremento', nombres VARCHAR(63) NOT NULL COMMENT 'nombre propio del usuario', numero_documento CHAR(8) NOT NULL UNIQUE COMMENT 'numero de identificacion del usuario', categoria VARCHAR(4) NOT NULL DEFAULT "C" COMMENT 'categoria por defecto del usuario nuevo que es C'
+);
+
+//poniendo auto_increment y primary key ya no se va a poder mter valores nulos en los registros, solo en uno el primero
